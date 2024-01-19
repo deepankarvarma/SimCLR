@@ -12,7 +12,6 @@ from tqdm import tqdm
 import utils
 from model import Model
 
-
 class Net(nn.Module):
     def __init__(self, num_class, pretrained_path):
         super(Net, self).__init__()
@@ -21,10 +20,20 @@ class Net(nn.Module):
         self.f = Model().f
         # classifier
         self.fc = nn.Linear(2048, num_class, bias=True)
-        pretrained_dict=torch.load(pretrained_path, map_location='cpu')
-        print("Pretrained Dict",pretrained_dict['resnet'].keys())
-        print("Model Dict",self.state_dict().keys())
-        # self.load_state_dict(pretrained_dict, strict=True)
+        
+        # Load the pretrained ResNet model
+        pretrained_dict = torch.load(pretrained_path, map_location='cpu')['resnet']
+        # Get the state_dict of the current model
+        model_dict = self.state_dict()
+
+        # Filter out unnecessary keys from the pretrained_dict
+        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
+
+        # Update the model_dict with pretrained_dict
+        model_dict.update(pretrained_dict)
+
+        # Load the updated state_dict into the model
+        self.load_state_dict(model_dict, strict=True)
 
     def forward(self, x):
         x = self.f(x)

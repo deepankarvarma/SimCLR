@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.models.resnet import resnet50
+from collections import OrderedDict
 
 
 # class Model(nn.Module):

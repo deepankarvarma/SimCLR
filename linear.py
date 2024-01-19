@@ -12,28 +12,19 @@ from tqdm import tqdm
 import utils
 from model import Model
 
+
 class Net(nn.Module):
-    def __init__(self, num_classes, pretrained_path):
+    def __init__(self, num_class, pretrained_path):
         super(Net, self).__init__()
 
         # encoder
         self.f = Model().f
         # classifier
-        self.fc = nn.Linear(2048, num_classes, bias=True)
-        
-        # Load the pretrained ResNet model
-        pretrained_dict = torch.load(pretrained_path, map_location='cpu')['resnet']
-        # Get the state_dict of the current model
-        model_dict = self.state_dict()
-
-        # Filter out unnecessary keys from the pretrained_dict
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-
-        # Update the model_dict with pretrained_dict
-        model_dict.update(pretrained_dict)
-
-        # Load the updated state_dict into the model
-        self.load_state_dict(model_dict, strict=True)
+        self.fc = nn.Linear(2048, num_class, bias=True)
+        pretrained_dict=torch.load(pretrained_path, map_location='cpu')
+        print("Pretrained Dict",pretrained_dict['resnet'].keys())
+        print("Model Dict",self.state_dict().keys())
+        # self.load_state_dict(pretrained_dict, strict=True)
 
     def forward(self, x):
         x = self.f(x)
@@ -86,7 +77,7 @@ if __name__ == '__main__':
     test_data = CIFAR10(root='data', train=False, transform=utils.test_transform, download=True)
     test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=True)
 
-    model = Net(num_classes=10, pretrained_path=model_path).cuda()
+    model = Net(num_class=len(train_data.classes), pretrained_path=model_path).cuda()
     for param in model.f.parameters():
         param.requires_grad = False
 

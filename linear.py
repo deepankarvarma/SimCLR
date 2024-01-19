@@ -14,7 +14,7 @@ from model import Model
 
 
 class Net(nn.Module):
-    def __init__(self, pretrained_path):
+    def __init__(self,num_class, pretrained_path):
         super(Net, self).__init__()
 
         # Encoder
@@ -24,7 +24,7 @@ class Net(nn.Module):
         self.fc = nn.Identity()
 
         # New classifier layer with the correct number of classes
-        self.new_fc = nn.Linear(2048, 10, bias=True)
+        self.new_fc = nn.Linear(2048, num_class, bias=True)
 
         # Load the pretrained ResNet model
         pretrained_dict = torch.load(pretrained_path, map_location='cpu')['resnet']

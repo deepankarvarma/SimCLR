@@ -86,7 +86,7 @@ if __name__ == '__main__':
     test_data = CIFAR10(root='data', train=False, transform=utils.test_transform, download=True)
     test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=True)
 
-    model = Net(num_class=10, pretrained_path=model_path).cuda()
+    model = Net(num_classes=10, pretrained_path=model_path).cuda()
     for param in model.f.parameters():
         param.requires_grad = False
 

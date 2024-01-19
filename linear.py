@@ -21,7 +21,10 @@ class Net(nn.Module):
         self.f = Model().f
         # classifier
         self.fc = nn.Linear(2048, num_class, bias=True)
-        self.load_state_dict(torch.load(pretrained_path, map_location='cpu'), strict=True)
+        pretrained_dict=torch.load(pretrained_path, map_location='cpu')
+        print("Pretrained Dict",pretrained_dict.keys())
+        print("Model Dict",self.state_dict().keys())
+        # self.load_state_dict(pretrained_dict, strict=True)
 
     def forward(self, x):
         x = self.f(x)

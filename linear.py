@@ -13,13 +13,13 @@ import utils
 from model import Model
 
 class Net(nn.Module):
-    def __init__(self, num_class, pretrained_path):
+    def __init__(self, num_classes, pretrained_path):
         super(Net, self).__init__()
 
         # encoder
         self.f = Model().f
         # classifier
-        self.fc = nn.Linear(2048, num_class, bias=True)
+        self.fc = nn.Linear(2048, num_classes, bias=True)
         
         # Load the pretrained ResNet model
         pretrained_dict = torch.load(pretrained_path, map_location='cpu')['resnet']

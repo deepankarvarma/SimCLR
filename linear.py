@@ -130,7 +130,7 @@ class Net(nn.Module):
         # classifier
         self.fc1 = nn.Linear(2048, num_class, bias=True)
         pretrained_dict = torch.load(pretrained_path, map_location='cpu')
-        self.load_state_dict(pretrained_dict['resnet'], strict=False)
+        self.load_state_dict(pretrained_dict['resnet'], strict=True)
 
     def forward(self, x):
         x = self.net(x)
@@ -179,10 +179,10 @@ if __name__ == '__main__':
     model_path, batch_size, epochs = args.model_path, args.batch_size, args.epochs
     
     train_data = CIFAR10(root='data', train=True, transform=utils.train_transform, download=True)
-    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=16, pin_memory=True)
+    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=4, pin_memory=True)
     
     test_data = CIFAR10(root='data', train=False, transform=utils.test_transform, download=True)
-    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=True)
+    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
 
     model = Net(num_class=len(train_data.classes), pretrained_path=model_path).cuda()
     
@@ -193,7 +193,7 @@ if __name__ == '__main__':
     flops, params = clever_format([flops, params])
     print('# Model Params: {} FLOPs: {}'.format(params, flops))
     
-    optimizer = optim.SGD(model.fc1.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-6, nesterov=True)
+    optimizer = optim.SGD(model.fc1.parameters(), lr=0.01, momentum=0.9, weight_decay=0, nesterov=True)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     
     loss_criterion = nn.CrossEntropyLoss()

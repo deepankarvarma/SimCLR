@@ -7,6 +7,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from resent import get_resnet, name_to_params
 
 
 
@@ -14,6 +15,7 @@ class Model(nn.Module):
     def __init__(self, feature_dim=128):
         super(Model, self).__init__()
         model, _ = get_resnet(depth, width, sk_ratio)
+        print(model)
         self.net = []
         
         # encoder

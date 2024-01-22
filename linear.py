@@ -18,7 +18,7 @@ class Net(nn.Module):
         super(Net, self).__init__()
 
         # encoder
-        self.f = Model().f
+        self.f = Model(pretrained_pat).f
         # classifier
         self.fc = nn.Linear(2048, num_class, bias=True)
         pretrained_dict=torch.load(pretrained_path, map_location='cpu')

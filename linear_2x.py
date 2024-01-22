@@ -119,7 +119,7 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from tqdm import tqdm
 import utils
-from model import Model  # Assuming you have a custom model defined in 'model.py'
+from model_2x import Model  # Assuming you have a custom model defined in 'model.py'
 
 class Net(nn.Module):
     def __init__(self, num_class, pretrained_path):

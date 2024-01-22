@@ -24,7 +24,7 @@ class Net(nn.Module):
         pretrained_dict=torch.load(pretrained_path, map_location='cpu')
         print("Pretrained Dict",pretrained_dict['resnet'].keys())
         print("Model Dict",self.state_dict().keys())
-        # self.load_state_dict(pretrained_dict, strict=True)
+        self.load_state_dict(pretrained_dict, strict=True)
 
     def forward(self, x):
         x = self.net(x)
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=True)
 
     model = Net(num_class=len(train_data.classes), pretrained_path=model_path).cuda()
-    for param in model.f.parameters():
+    for param in model.net.parameters():
         param.requires_grad = False
 
     flops, params = profile(model, inputs=(torch.randn(1, 3, 32, 32).cuda(),))

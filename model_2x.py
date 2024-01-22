@@ -8,7 +8,7 @@ from torchvision.datasets import CIFAR10
 from tqdm import tqdm
 from thop import profile, clever_format
 import utils
-from resent import Model
+from resent import get_resnet, name_to_params
 
 class Net(nn.Module):
     def __init__(self, num_class, pretrained_path):

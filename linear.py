@@ -84,7 +84,7 @@ if __name__ == '__main__':
     flops, params = profile(model, inputs=(torch.randn(1, 3, 32, 32).cuda(),))
     flops, params = clever_format([flops, params])
     print('# Model Params: {} FLOPs: {}'.format(params, flops))
-    optimizer = optim.Adam(model.fc1.parameters(), lr=5e-5, weight_decay=1e-6)
+    optimizer = optim.Adam(model.fc1.parameters(), lr=1e-4, weight_decay=1e-6)
     loss_criterion = nn.CrossEntropyLoss()
     results = {'train_loss': [], 'train_acc@1': [], 'train_acc@5': [],
                'test_loss': [], 'test_acc@1': [], 'test_acc@5': []}

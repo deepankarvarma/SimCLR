@@ -24,7 +24,7 @@ class Net(nn.Module):
         pretrained_dict=torch.load(pretrained_path, map_location='cpu')
         print("Pretrained Dict",pretrained_dict['resnet'].keys())
         print("Model Dict",self.state_dict().keys())
-        self.load_state_dict(pretrained_dict, strict=True)
+        self.load_state_dict(pretrained_dict['resnet'], strict=True)
 
     def forward(self, x):
         x = self.net(x)

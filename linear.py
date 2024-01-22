@@ -22,7 +22,7 @@ class Net(nn.Module):
         # classifier
         self.fc = nn.Linear(2048, num_class, bias=True)
         pretrained_dict=torch.load(pretrained_path, map_location='cpu')
-        print("Pretrained Dict",pretrained_dict.keys())
+        print("Pretrained Dict",pretrained_dict['state_dict'].keys())
         print("Model Dict",self.state_dict().keys())
         # self.load_state_dict(pretrained_dict, strict=True)
 

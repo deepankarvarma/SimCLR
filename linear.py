@@ -20,7 +20,7 @@ class Net(nn.Module):
         # encoder
         self.net = Model().net
         # classifier
-        self.fc = nn.Linear(2048, num_class, bias=True)
+        self.fc1 = nn.Linear(2048, num_class, bias=True)
         pretrained_dict=torch.load(pretrained_path, map_location='cpu')
         # print("Pretrained Dict",pretrained_dict['resnet'].keys())
         # print("Model Dict",self.state_dict().keys())
@@ -29,7 +29,7 @@ class Net(nn.Module):
     def forward(self, x):
         x = self.net(x)
         feature = torch.flatten(x, start_dim=1)
-        out = self.fc(feature)
+        out = self.fc1(feature)
         return out
 
 
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     flops, params = profile(model, inputs=(torch.randn(1, 3, 32, 32).cuda(),))
     flops, params = clever_format([flops, params])
     print('# Model Params: {} FLOPs: {}'.format(params, flops))
-    optimizer = optim.Adam(model.fc.parameters(), lr=1e-3, weight_decay=1e-6)
+    optimizer = optim.Adam(model.fc1.parameters(), lr=1e-3, weight_decay=1e-6)
     loss_criterion = nn.CrossEntropyLoss()
     results = {'train_loss': [], 'train_acc@1': [], 'train_acc@5': [],
                'test_loss': [], 'test_acc@1': [], 'test_acc@5': []}

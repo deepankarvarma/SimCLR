@@ -193,7 +193,7 @@ if __name__ == '__main__':
     flops, params = clever_format([flops, params])
     print('# Model Params: {} FLOPs: {}'.format(params, flops))
     
-    optimizer = optim.SGD(model.fc1.parameters(), lr=0.01, momentum=0.9, weight_decay=0, nesterov=True)
+    optimizer = optim.SGD(model.fc1.parameters(), lr=0.01, momentum=0.9, weight_decay=1e-4, nesterov=True)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     
     loss_criterion = nn.CrossEntropyLoss()

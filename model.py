@@ -14,7 +14,7 @@ from resent import get_resnet, name_to_params
 class Model(nn.Module):
     def __init__(self, feature_dim=128):
         super(Model, self).__init__()
-        model, _ = get_resnet(depth=50, width=1, sk_ratio=0)
+        model, _ = get_resnet(depth=50, width_multiplier=1, sk_ratio=0)
         print(model)
         self.net = []
         

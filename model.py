@@ -16,10 +16,10 @@ class Model(nn.Module):
         super(Model, self).__init__()
         model, _ = get_resnet(depth=50, width_multiplier=1, sk_ratio=0)
         print(model)
-        self.f = []
+        self.net=model.net
         
         # encoder
-        self.f = nn.Sequential(*self.f)
+        # self.f = nn.Sequential(*self.f)
         # projection head
         self.g = nn.Sequential(nn.Linear(2048, 512, bias=False), nn.BatchNorm1d(512),
                                nn.ReLU(inplace=True), nn.Linear(512, feature_dim, bias=True))
